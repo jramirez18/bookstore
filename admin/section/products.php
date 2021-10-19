@@ -2,8 +2,23 @@
 <?php   include("../template/header.php"); #salimos de la carpeta section y entramos a la carpeta template SALIMOS CON 2 PTS ..?>
 
 <?php   
-print_r($_POST);
+#validamos la informacion que llegar del formulario, crearmos variables para poder Recepcionar
+#para la validaciona utilizamos IF TERNARIO, en () lo que voy a validar 
+#isset va evaluar que no este vacio, es decir si tiene algo vamos a poner el valor que esta llegando $_POST, dento del post va el NOMBRE
+#? significa SI y : significa de lo contrario
+$txtID=(isset($_POST['txtID'])) ? $_POST['txtID'] : "";#SI hay algo en txtID, entonces txtID va a ser igual a esta variable $txtID, de lo contrario va quedar vacio
+$txtNombre=(isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
+$txtImagen=(isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen'] ['name']: "";
+$accion=(isset($_POST['accion'])) ? $_POST['accion'] : "";
 
+#y para comparar imprimimos los valores,y aseguramos que la informacion esta llegando
+echo $txtID."<br/>";
+echo $txtNombre."<br/>";
+echo $txtImagen."<br/>";
+echo $accion."<br/>";
+
+
+#print_r($_POST);
 #Elementos php que nos van a permitir hacer o imprimir informacion de la cual se esta enviando, Todo esto lo hacemos a traves del metodo POST 
 #ENCTYPE, para que el formulario acepte fotografias, archivos
 ?>
