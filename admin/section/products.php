@@ -23,10 +23,19 @@ switch($accion){
         $query->execute();
         break;
     case "Modificar":
-        echo "Presionado boton Modificar";
+
         break;
     case "Cancelar":
-        echo "Presionado boton Cancelar";
+
+        break;
+    case "Seleccionar":
+        break;
+    case "Borrar":
+        $query=$conn->prepare("DELETE FROM books WHERE id=:id");
+        //parametros
+        $query->bindParam(':id',$txtID);
+        //ejecutamos la sentencia
+        $query->execute();
         break;
 }
 #print_r($_POST);
@@ -105,7 +114,15 @@ $listaLibros=$query->fetchAll(PDO::FETCH_ASSOC);
                 <td><?php echo $libro['id'];?></td>
                 <td><?php echo $libro['nombre'];?></td>
                 <td><?php echo $libro['imagen'];?></td>
-                <td>Seleccionar | Borrar</td>
+                <td>
+                    <!--form:post-->
+                <form method="post">
+                    <input type="hidden" name="txtID" id="txtID" value="<?php echo $libro['id'];?>"/>
+                    <input type="submit" name="accion" value="Seleccionar" class="btn btn-primary"/>
+                    <input type="submit" name="accion" value="Borrar" class="btn btn-danger"/>
+                </form>
+                
+                </td>
             </tr>
         <?php } ?>
         </tbody>
