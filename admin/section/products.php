@@ -17,7 +17,18 @@ echo $txtNombre."<br/>";
 echo $txtImagen."<br/>";
 echo $accion."<br/>";
 
-
+#aca estamos evaluando la variable $accion que igualamos anteriormente
+switch($accion){
+    case "Agregar":
+        echo "Presionado boton Agregar";
+        break;
+    case "Modificar":
+        echo "Presionado boton Modificar";
+        break;
+    case "Cancelar":
+        echo "Presionado boton Cancelar";
+        break;
+}
 #print_r($_POST);
 #Elementos php que nos van a permitir hacer o imprimir informacion de la cual se esta enviando, Todo esto lo hacemos a traves del metodo POST 
 #ENCTYPE, para que el formulario acepte fotografias, archivos
