@@ -17,9 +17,33 @@ echo $txtNombre."<br/>";
 echo $txtImagen."<br/>";
 echo $accion."<br/>";
 
+#conexion a la BD
+$host="localhost";
+$bd="bookstore";
+$user="root";
+$pwd="";
+
+#Seguido realizamos una instruccion try
+try {
+    //PDO es el que nos permite comunicar directamente con la bd, creando una conexion
+    $conn= new PDO("mysql:host=$host; dbname=$bd",$user,$pwd);
+    //imprimimos si la conexion se llevo a cabo
+    if ($conn) {
+        # code...
+        echo "CONECTADO A LA BD";
+    }
+} catch (Exception $ex) {
+    //En caso dado de que exista un error 
+    echo $ex->getMessage();
+}
+
+
 #aca estamos evaluando la variable $accion que igualamos anteriormente
 switch($accion){
     case "Agregar":
+        $query=$conn->prepare("INSERT INTO books(nombre, imagen) VALUES ('.NET CORE3','core3.png');");
+        //ejecutamos la sentencia
+        $query->execute();
         echo "Presionado boton Agregar";
         break;
     case "Modificar":
