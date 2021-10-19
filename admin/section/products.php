@@ -21,7 +21,6 @@ switch($accion){
         $query->bindParam(':imagen',$txtImagen);
         //ejecutamos la sentencia
         $query->execute();
-        echo "Presionado boton Agregar";
         break;
     case "Modificar":
         echo "Presionado boton Modificar";
@@ -33,6 +32,14 @@ switch($accion){
 #print_r($_POST);
 #Elementos php que nos van a permitir hacer o imprimir informacion de la cual se esta enviando, Todo esto lo hacemos a traves del metodo POST 
 #ENCTYPE, para que el formulario acepte fotografias, archivos
+
+
+$query=$conn->prepare("SELECT * FROM books");
+$query->execute();
+#Almacenar la informacion, en una variable para que lo pueda mostrar
+#fetchAll recupera todos los registros para poder mostrarlos en la variable $listaLibros
+$listaLibros=$query->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!--b4-grid-col COMANDO-->
@@ -91,12 +98,16 @@ switch($accion){
             </tr>
         </thead>
         <tbody>
+            <?php foreach ($listaLibros as $libro) {
+                # dentro del foreach ponemos la listra de libros que esta en la variables $listaLibros y que lo lea como si fuera un libro
+             ?>
             <tr>
-                <td>2</td>
-                <td>Aprende PHP</td>
-                <td>Imagen.jpg</td>
+                <td><?php echo $libro['id'];?></td>
+                <td><?php echo $libro['nombre'];?></td>
+                <td><?php echo $libro['imagen'];?></td>
                 <td>Seleccionar | Borrar</td>
             </tr>
+        <?php } ?>
         </tbody>
     </table>
 </div>
