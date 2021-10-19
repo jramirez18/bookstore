@@ -1,5 +1,6 @@
 <!--CRUD-->
 <?php   include("../template/header.php"); #salimos de la carpeta section y entramos a la carpeta template SALIMOS CON 2 PTS ..?>
+<?php include("../config/db.php"); #BD ?> 
 
 <?php   
 #validamos la informacion que llegar del formulario, crearmos variables para poder Recepcionar
@@ -11,37 +12,13 @@ $txtNombre=(isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
 $txtImagen=(isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen'] ['name']: "";
 $accion=(isset($_POST['accion'])) ? $_POST['accion'] : "";
 
-#y para comparar imprimimos los valores,y aseguramos que la informacion esta llegando
-echo $txtID."<br/>";
-echo $txtNombre."<br/>";
-echo $txtImagen."<br/>";
-echo $accion."<br/>";
-
-#conexion a la BD
-$host="localhost";
-$bd="bookstore";
-$user="root";
-$pwd="";
-
-#Seguido realizamos una instruccion try
-try {
-    //PDO es el que nos permite comunicar directamente con la bd, creando una conexion
-    $conn= new PDO("mysql:host=$host; dbname=$bd",$user,$pwd);
-    //imprimimos si la conexion se llevo a cabo
-    if ($conn) {
-        # code...
-        echo "CONECTADO A LA BD";
-    }
-} catch (Exception $ex) {
-    //En caso dado de que exista un error 
-    echo $ex->getMessage();
-}
-
-
 #aca estamos evaluando la variable $accion que igualamos anteriormente
 switch($accion){
     case "Agregar":
-        $query=$conn->prepare("INSERT INTO books(nombre, imagen) VALUES ('.NET CORE3','core3.png');");
+        $query=$conn->prepare("INSERT INTO books(nombre, imagen) VALUES (:nombre,:imagen);");
+        //parametros
+        $query->bindParam(':nombre',$txtNombre);
+        $query->bindParam(':imagen',$txtImagen);
         //ejecutamos la sentencia
         $query->execute();
         echo "Presionado boton Agregar";
