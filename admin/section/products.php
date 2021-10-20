@@ -29,6 +29,14 @@ switch($accion){
 
         break;
     case "Seleccionar":
+        $query=$conn->prepare("SELECT * FROM books WHERE id=:id");
+        //parametros
+        $query->bindParam(':id',$txtID);
+        //ejecutamos la sentencia
+        $query->execute();
+        $libro= $query->fetch(PDO::FETCH_LAZY);
+        $txtNombre=$libro['nombre']?? null;
+        $txtImagen=$libro['imagen'];
         break;
     case "Borrar":
         $query=$conn->prepare("DELETE FROM books WHERE id=:id");
@@ -67,16 +75,17 @@ $listaLibros=$query->fetchAll(PDO::FETCH_ASSOC);
     <form method="POST" enctype="multipart/form-data"><!--Aca en el form ponemos las especificaciones de envio, El metodo-->
     <div class = "form-group">
     <label for="txtID">ID</label>
-    <input type="text" class="form-control" name="txtID" id="txtID"  placeholder="ID">
+    <input type="text" class="form-control" value="<?php echo $txtID; ?>";name="txtID" id="txtID"  placeholder="ID">
     </div>
 
     <div class = "form-group">
     <label for="txtNombre">Nombre</label>
-    <input type="text" class="form-control" name="txtNombre" id="txtNombre" placeholder="Nombre">
+    <input type="text" class="form-control" value="<?php echo $txtNombre; ?>" name="txtNombre" id="txtNombre" placeholder="Nombre">
     </div>
 
     <div class = "form-group">
     <label for="txtImagen">Imagen</label>
+    <?php echo $txtImagen; ?>
     <input type="file" class="form-control" name="txtImagen" id="txtImagen">
     </div>
 
