@@ -23,7 +23,35 @@ switch($accion){
         $query->execute();
         break;
     case "Modificar":
+        try{
+        /*$query=$conn->prepare("UPDATE books SET nombre=:nombre WHERE id=:id");
+        $query->bindParam(':nombre',$txtNombre);
+        $query->bindParam(':id',$txtID);
+        $query->execute(); EL MODIFICAR NO ME FUNCIONOOOOOO*/
+        if ($txtNombre!="") {
+            # code...
+        
+        $query=$conn->prepare("UPDATE books SET nombre=:nombre WHERE id=:id;");
+        //parametros
+        $query->bindParam(':nombre',$txtNombre);
+        $query->bindParam(':id',$txtID);
+        //ejecutamos la sentencia
+        $query->execute();
+        }
 
+
+        if ($txtImagen!="") {
+            # code..
+        $query=$conn->prepare("UPDATE books SET imagen=:imagen WHERE id=:id;");
+        //parametros
+        $query->bindParam(':imagen',$txtImagen);
+        $query->bindParam(':id',$txtID);
+        //ejecutamos la sentencia
+        $query->execute();
+    }
+    } catch(PDOException $e) {
+      echo "Error: " . $e->getMessage();
+    }
         break;
     case "Cancelar":
 
@@ -35,7 +63,7 @@ switch($accion){
         //ejecutamos la sentencia
         $query->execute();
         $libro= $query->fetch(PDO::FETCH_LAZY);
-        $txtNombre=$libro['nombre']?? null;
+        $txtNombre=$libro['nombre'];
         $txtImagen=$libro['imagen'];
         break;
     case "Borrar":
