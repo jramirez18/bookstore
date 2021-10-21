@@ -18,7 +18,21 @@ switch($accion){
         $query=$conn->prepare("INSERT INTO books(nombre, imagen) VALUES (:nombre,:imagen);");
         //parametros
         $query->bindParam(':nombre',$txtNombre);
-        $query->bindParam(':imagen',$txtImagen);
+
+        //fecha, esto ayuda porque puedenn habaer dos imagenes con el mismo nombre
+        $fecha= new DateTime();
+        //nombre del archivo, primero tiene que validar si le estan enviando lo que es la imagen
+        $nombreArchivo=($txtImagen!="") ? $fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"]:"imagen.jpg";
+        //vamos a usar una imagen temporal, $_FILES["txtImagen"] vendria siendo el archivo y le vamos a poner lo que es la imagen temporal para poder copiarla al servidor
+        $tmpImagen=$_FILES["txtImagen"]["tmp_name"];
+        //verificamos si el tmp_name tiene algo
+        if ($tmpImagen!="") {
+            # si tiene algo movemos el archivo
+            move_uploaded_file($tmpImagen,"../../img/".$nombreArchivo);
+        }
+
+        //parametros
+        $query->bindParam(':imagen',$nombreArchivo);
         //ejecutamos la sentencia
         $query->execute();
         break;
