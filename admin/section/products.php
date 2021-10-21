@@ -81,6 +81,23 @@ switch($accion){
         $txtImagen=$libro['imagen'];
         break;
     case "Borrar":
+        $query=$conn->prepare("SELECT imagen FROM books WHERE id=:id");
+        //parametros
+        $query->bindParam(':id',$txtID);
+        //ejecutamos la sentencia
+        $query->execute();
+        $libro= $query->fetch(PDO::FETCH_LAZY);
+
+        //ahora preguntamos si la imagen existe...isset Determina si una variable está definida y no es null.
+        //y tambien preguntamos si es diferente esa imagen de imagen.jpg
+        if (isset($libro["imagen"]) && ($libro["imagen"])!="imagen.jpg"){
+            #Preguntamos si existe el archivo con la instruccion FILE
+            if (file_exists("../../img/".$libro["imagen"])) {
+                # si existe lo borramos
+                unlink("../../img/".$libro["imagen"]);
+            }
+        }
+
         $query=$conn->prepare("DELETE FROM books WHERE id=:id");
         //parametros
         $query->bindParam(':id',$txtID);
